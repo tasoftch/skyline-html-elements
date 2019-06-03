@@ -46,8 +46,6 @@ abstract class AbstractElement implements ElementInterface
     /** @var AbstractElement|null */
     protected $parentElement;
 
-    protected $autoIdentificationEnabled = true;
-
     /**
      * AbstractElement constructor.
      * @param bool $allowsContent
@@ -57,24 +55,6 @@ abstract class AbstractElement implements ElementInterface
     {
         $this->allowsContent = $allowsContent;
         $this->tagName = $tagName;
-    }
-
-    /**
-     * Sets an id
-     *
-     * @param string $id
-     */
-    public function setID(string $id) {
-        $this["id"] = $id;
-    }
-
-    /**
-     * Get the element id
-     *
-     * @return string
-     */
-    public function getID(): string {
-        return $this["id"] ?? "";
     }
 
     /**
@@ -120,27 +100,6 @@ abstract class AbstractElement implements ElementInterface
     }
 
     /**
-     * Searches for an element with $anID recursively.
-     *
-     * @param string $anID
-     * @return AbstractElement|null
-     */
-    public function getElementByID(string $anID): ?AbstractElement {
-        $iterator = function(AbstractElement $element) use (&$iterator, $anID) {
-            if($element["id"] == $anID)
-                yield $element;
-            elseif($children = $element->getChildElements()) {
-                foreach($children as $child)
-                    yield from $iterator($child);
-            }
-        };
-
-        foreach ($iterator as $element)
-            return $element;
-        return NULL;
-    }
-
-    /**
      * Appends a child element
      *
      * @param AbstractElement $childElement
@@ -161,8 +120,6 @@ abstract class AbstractElement implements ElementInterface
             }
             $childElement->parentElement = $this;
             $this->childElements[] = $childElement;
-            if(!$childElement->getID() && $this->isAutoIdentificationEnabled())
-                $childElement->setID( 'e_' . uniqid() );
         }
     }
 
@@ -227,22 +184,11 @@ abstract class AbstractElement implements ElementInterface
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isAutoIdentificationEnabled(): bool
+    public function __toString()
     {
-        return $this->autoIdentificationEnabled;
-    }
-
-    /**
-     * @param bool $autoIdentificationEnabled
-     */
-    public function setAutoIdentificationEnabled(bool $autoIdentificationEnabled): void
-    {
-        $this->autoIdentificationEnabled = $autoIdentificationEnabled;
-        array_walk($this->childElements, function(AbstractElement $element) {
-            $element->setAutoIdentificationEnabled( $this->isAutoIdentificationEnabled() );
-        });
+        return $this->toString();
     }
 
     /**
@@ -250,13 +196,12 @@ abstract class AbstractElement implements ElementInterface
      */
     public function __clone()
     {
-        $this->setID("");
+        unset($this["id"]);
+
         foreach($this->childElements as &$element) {
             $element = clone $element;
             $element->parentElement = $this;
-
-            if($this->isAutoIdentificationEnabled())
-                $element->setID("e_".uniqid());
+            unset($element["id"]);
         }
     }
 
@@ -267,6 +212,24 @@ abstract class AbstractElement implements ElementInterface
      */
     protected function getIndentionString(int $indention) {
         return  str_repeat("\t", $indention);
+    }
+
+    /**
+     * Sets an HTML id attribute
+     *
+     * @param string $id
+     */
+    public function setID(string $id) {
+        $this["id"] = $id;
+    }
+
+    /**
+     * Get the element id
+     *
+     * @return string
+     */
+    public function getID(): string {
+        return $this["id"] ?? "";
     }
 
     /**
