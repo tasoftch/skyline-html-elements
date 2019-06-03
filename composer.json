@@ -2,6 +2,7 @@
   "name": "skyline/html-elements",
   "description": "The skyline html elements package defines several render templates to render html bricks.",
   "license": "BSD-3-Clause",
+  "minimum-stability": "dev",
   "authors": [
     {
       "name": "Thomas Abplanalp",
@@ -10,11 +11,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "TASoft\\" : "src"
+      "Skyline\\HTML\\" : "src"
     }
   },
   "require" : {
-    "php": "^7.2"
+    "php": "^7.2",
+    "skyline/render": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^6"
