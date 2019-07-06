@@ -21,39 +21,28 @@
  * SOFTWARE.
  */
 
-namespace Skyline\HTML;
+/**
+ * ContentElementTest.php
+ * skyline-html-elements
+ *
+ * Created on 2019-07-06 20:43 by thomas
+ */
 
+use PHPUnit\Framework\TestCase;
+use Skyline\HTML\HTMLContentElement;
+use Skyline\HTML\TextContentElement;
 
-use ArrayAccess;
-
-interface ElementInterface extends ArrayAccess
+class ContentElementTest extends TestCase
 {
-    /**
-     * @return ElementInterface|null
-     */
-    public function getParentElement(): ?ElementInterface;
+    public function testTextElement() {
+        $element = new TextContentElement("p", "Hallo &meine; <b>Welt</b>!");
+        $this->assertEquals("<p>
+Hallo &amp;meine; &lt;b&gt;Welt&lt;/b&gt;!</p>\n", $element->toString());
+    }
 
-    /**
-     * @return bool
-     */
-    public function isContentAllowed(): bool;
-
-    /**
-     * @return string
-     */
-    public function getTagName(): string;
-
-    /**
-     * @return string[]
-     */
-    public function getAttributes(): array;
-
-
-    /**
-     * @return ElementInterface[]
-     */
-    public function getChildElements(): array;
-
-
-    public function toString(): string;
+    public function testHTMLElement() {
+        $element = new HTMLContentElement("p", "Hallo &meine; <b>Welt</b>!");
+        $this->assertEquals("<p>
+Hallo &meine; <b>Welt</b>!</p>\n", $element->toString());
+    }
 }

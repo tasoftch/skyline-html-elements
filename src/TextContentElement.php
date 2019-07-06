@@ -24,36 +24,34 @@
 namespace Skyline\HTML;
 
 
-use ArrayAccess;
-
-interface ElementInterface extends ArrayAccess
+class TextContentElement extends Element
 {
-    /**
-     * @return ElementInterface|null
-     */
-    public function getParentElement(): ?ElementInterface;
+    /** @var string */
+    private $textContent;
 
-    /**
-     * @return bool
-     */
-    public function isContentAllowed(): bool;
+    public function __construct(string $tagName = 'div', string $textContent = '')
+    {
+        parent::__construct($tagName, true);
+        $this->textContent = $textContent;
+    }
 
     /**
      * @return string
      */
-    public function getTagName(): string;
+    public function getTextContent(): string
+    {
+        return $this->textContent;
+    }
 
     /**
-     * @return string[]
+     * @inheritDoc
      */
-    public function getAttributes(): array;
-
-
-    /**
-     * @return ElementInterface[]
-     */
-    public function getChildElements(): array;
-
-
-    public function toString(): string;
+    protected function stringifyContents(int $indention = 0): string
+    {
+        $ind = $this->getIndentionString($indention);
+        $content = $this->escapedContentValue( $this->getTextContent() );
+        if($this->formatOutput())
+            $content = preg_replace("/([\n\r])[ \t]*/i", "$1$ind", $content);
+        return $content;
+    }
 }

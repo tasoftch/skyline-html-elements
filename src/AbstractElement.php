@@ -40,7 +40,7 @@ abstract class AbstractElement implements ElementInterface
     /** @var string[] HTML element attributes */
     protected $attributes = [];
 
-    /** @var AbstractElement[] */
+    /** @var ElementInterface[] */
     protected $childElements = [];
 
     /** @var AbstractElement|null */
@@ -138,9 +138,9 @@ abstract class AbstractElement implements ElementInterface
     }
 
     /**
-     * @return AbstractElement|null
+     * @return ElementInterface|null
      */
-    public function getParentElement(): ?AbstractElement
+    public function getParentElement(): ?ElementInterface
     {
         return $this->parentElement;
     }

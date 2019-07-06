@@ -24,36 +24,16 @@
 namespace Skyline\HTML;
 
 
-use ArrayAccess;
-
-interface ElementInterface extends ArrayAccess
+class HTMLContentElement extends TextContentElement
 {
     /**
-     * @return ElementInterface|null
+     * Simply ignore content escapes
+     *
+     * @param $value
+     * @return string|null
      */
-    public function getParentElement(): ?ElementInterface;
-
-    /**
-     * @return bool
-     */
-    public function isContentAllowed(): bool;
-
-    /**
-     * @return string
-     */
-    public function getTagName(): string;
-
-    /**
-     * @return string[]
-     */
-    public function getAttributes(): array;
-
-
-    /**
-     * @return ElementInterface[]
-     */
-    public function getChildElements(): array;
-
-
-    public function toString(): string;
+    protected function escapedContentValue($value): ?string
+    {
+        return $value;
+    }
 }
