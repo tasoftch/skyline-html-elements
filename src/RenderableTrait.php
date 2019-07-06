@@ -21,45 +21,22 @@
  * SOFTWARE.
  */
 
-namespace Skyline\HTML\Head;
+namespace Skyline\HTML;
 
-
-use Skyline\HTML\EmptyElement;
-use Skyline\Render\Template\Extension\TemplateExtensionInterface;
-
-class Link extends EmptyElement implements TemplateExtensionInterface
+/**
+ * Adapter trait to use html elements as templates
+ * @package Skyline\HTML
+ */
+trait RenderableTrait
 {
-    const REL_AUTHOR = "author";
-    const REL_DNS_PREFETCH = "dns-prefetch";
-    const REL_HELP = "help";
-    const REL_ICON = 'icon';
-    const REL_SHORTCUT = 'shortcut icon';
-    const REL_LICENSE = 'license';
-    const REL_NEXT = 'next';
-    const REL_PINGBACK = 'pingback';
-    const REL_PRECONNECT = 'preconnect';
-    const REL_PREFETCH = "prefetch";
-    const REL_PRELOAD = 'preload';
-    const REL_PRERENDER = 'prerender';
-    const REL_PREV = 'prev';
-    const REL_SEARCH = 'search';
-
-    public function __construct($content, string $relation, string $contentType = NULL)
+    public function getRenderable(): callable
     {
-        parent::__construct("link");
-        $this["rel"] = $relation;
-        $this["href"] = $content;
-        if($contentType)
-            $this["type"] = $contentType;
+        return function() {
+            return $this->toString();
+        };
     }
 
-    public function getType(): string
-    {
-        return $this["type"] ?? "text/html";
-    }
-
-    public function getPosition(): int
-    {
-        return self::POSITION_HEADER;
+    public function getName(): string {
+        return ($this instanceof \ArrayAccess) && isset($this["name"]) ? $this["name"] : $this->getTagName();
     }
 }

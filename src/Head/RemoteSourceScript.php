@@ -25,9 +25,13 @@ namespace Skyline\HTML\Head;
 
 
 use Skyline\HTML\EmptyElement;
+use Skyline\HTML\RenderableTrait;
+use Skyline\Render\Template\Extension\TemplateExtensionInterface;
 
-class RemoteSourceScript extends EmptyElement
+class RemoteSourceScript extends EmptyElement implements TemplateExtensionInterface
 {
+    use RenderableTrait;
+
     const TYPE_JAVASCRIPT = 'application/javascript';
 
     public function __construct($content, string $contentType = self::TYPE_JAVASCRIPT, $integrity = NULL, $crossorigin = NULL)
@@ -41,5 +45,15 @@ class RemoteSourceScript extends EmptyElement
             $this["crossorigin"] = $crossorigin;
         if($contentType)
             $this["type"] = $contentType;
+    }
+
+    public function getType(): string
+    {
+        return $this["type"] ?? "application/octet-stream";
+    }
+
+    public function getPosition(): int
+    {
+        return self::POSITION_HEADER;
     }
 }

@@ -24,13 +24,27 @@
 namespace Skyline\HTML\Head;
 
 use Skyline\HTML\EmptyElement;
+use Skyline\HTML\RenderableTrait;
+use Skyline\Render\Template\Extension\TemplateExtensionInterface;
 
-class Meta extends EmptyElement
+class Meta extends EmptyElement implements TemplateExtensionInterface
 {
+    use RenderableTrait;
+
     public function __construct(string $name, $content)
     {
         parent::__construct("meta");
         $this["name"] = $name;
         $this["content"] = $content;
+    }
+
+    public function getType(): string
+    {
+        return "";
+    }
+
+    public function getPosition(): int
+    {
+        return self::POSITION_HEADER;
     }
 }

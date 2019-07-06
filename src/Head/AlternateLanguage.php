@@ -28,15 +28,7 @@ class AlternateLanguage extends Link
 {
     public function __construct($content, string $language)
     {
-        parent::__construct($content, $language);
-    }
-
-    public function toString(int $indention = 0): string
-    {
-        $ind = $this->getIndentionString($indention);
-        $name = $this->escapedAttributeValue( $this->name );
-        $content = $this->escapedAttributeValue( $this->content );
-
-        return "$ind<link rel=\"alternate\" hreflang=\"$name\" href=\"$content\">\n";
+        parent::__construct($content, "alternate", 'text/html');
+        $this["hreflang"] = $language;
     }
 }

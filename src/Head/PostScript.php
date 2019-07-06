@@ -24,42 +24,10 @@
 namespace Skyline\HTML\Head;
 
 
-use Skyline\HTML\EmptyElement;
-use Skyline\Render\Template\Extension\TemplateExtensionInterface;
-
-class Link extends EmptyElement implements TemplateExtensionInterface
+class PostScript extends Script
 {
-    const REL_AUTHOR = "author";
-    const REL_DNS_PREFETCH = "dns-prefetch";
-    const REL_HELP = "help";
-    const REL_ICON = 'icon';
-    const REL_SHORTCUT = 'shortcut icon';
-    const REL_LICENSE = 'license';
-    const REL_NEXT = 'next';
-    const REL_PINGBACK = 'pingback';
-    const REL_PRECONNECT = 'preconnect';
-    const REL_PREFETCH = "prefetch";
-    const REL_PRELOAD = 'preload';
-    const REL_PRERENDER = 'prerender';
-    const REL_PREV = 'prev';
-    const REL_SEARCH = 'search';
-
-    public function __construct($content, string $relation, string $contentType = NULL)
-    {
-        parent::__construct("link");
-        $this["rel"] = $relation;
-        $this["href"] = $content;
-        if($contentType)
-            $this["type"] = $contentType;
-    }
-
-    public function getType(): string
-    {
-        return $this["type"] ?? "text/html";
-    }
-
     public function getPosition(): int
     {
-        return self::POSITION_HEADER;
+        return self::POSITION_AFTER_BODY;
     }
 }

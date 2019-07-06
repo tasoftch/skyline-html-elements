@@ -29,6 +29,8 @@ use Skyline\HTML\Exception\ElementException;
 
 abstract class AbstractElement implements ElementInterface
 {
+    use RenderableTrait;
+
     /**
      * Define, if the element allows other elements as contents.
      * @var bool
