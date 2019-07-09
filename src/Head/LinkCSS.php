@@ -31,9 +31,9 @@ class LinkCSS extends RemoteSourceLink
     const MEDIA_SCREEN = 'screen';
     const MEDIA_SPEECH = 'speech';
 
-    public function __construct($content, string $media = self::MEDIA_ALL)
+    public function __construct($content, string $media = self::MEDIA_ALL, $integrity = NULL, $crossorigin = NULL)
     {
-        parent::__construct($content, "stylesheet", "text/css");
+        parent::__construct($content, "stylesheet", "text/css", $integrity, $crossorigin);
         $this["media"] = $media;
     }
 }
