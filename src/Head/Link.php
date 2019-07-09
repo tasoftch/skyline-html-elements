@@ -33,7 +33,7 @@ class Link extends EmptyElement implements TemplateExtensionInterface
     const REL_DNS_PREFETCH = "dns-prefetch";
     const REL_HELP = "help";
     const REL_ICON = 'icon';
-    const REL_SHORTCUT = 'shortcut icon';
+    const REL_SHORTCUT = 'shortcut';
     const REL_LICENSE = 'license';
     const REL_NEXT = 'next';
     const REL_PINGBACK = 'pingback';
