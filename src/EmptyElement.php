@@ -61,6 +61,6 @@ class EmptyElement extends AbstractElement
         foreach($this->getAttributes() as $name => $value) {
             $str .= " $name=\"" . $this->escapedAttributeValue($value) . "\"";
         }
-        return $str . "/>";
+        return $str . " />";
     }
 }
