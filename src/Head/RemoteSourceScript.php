@@ -24,11 +24,11 @@
 namespace Skyline\HTML\Head;
 
 
-use Skyline\HTML\EmptyElement;
+use Skyline\HTML\Element;
 use Skyline\HTML\RenderableTrait;
 use Skyline\Render\Template\Extension\TemplateExtensionInterface;
 
-class RemoteSourceScript extends EmptyElement implements TemplateExtensionInterface
+class RemoteSourceScript extends Element implements TemplateExtensionInterface
 {
     use RenderableTrait;
 
