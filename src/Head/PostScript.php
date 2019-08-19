@@ -24,7 +24,7 @@
 namespace Skyline\HTML\Head;
 
 
-class PostScript extends Script
+class PostScript extends RemoteSourceScript
 {
     public function getPosition(): int
     {
