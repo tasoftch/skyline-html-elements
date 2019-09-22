@@ -45,7 +45,7 @@ abstract class AbstractElement implements ElementInterface
     /** @var ElementInterface[] */
     protected $childElements = [];
 
-    /** @var AbstractElement|null */
+    /** @var ElementInterface|null */
     protected $parentElement;
 
     /**
@@ -102,20 +102,28 @@ abstract class AbstractElement implements ElementInterface
     }
 
     /**
+     * @param array $children
+     */
+    public function setChildElements(array $children)
+    {
+        $this->childElements = $children;
+    }
+
+    /**
      * Appends a child element
      *
-     * @param AbstractElement $childElement
+     * @param ElementInterface $childElement
      * @throws DisallowedContentsException
      * @throws ElementException
      */
-    public function appendChild(AbstractElement $childElement) {
-        if(!in_array($childElement, $this->childElements)) {
+    public function appendChild(ElementInterface $childElement) {
+        if(!in_array($childElement, $this->getChildElements())) {
             if(!$this->isContentAllowed()) {
                 $e = new DisallowedContentsException("Element does not allow contents");
                 $e->setElement($this);
                 throw $e;
             }
-            if($childElement->parentElement) {
+            if($childElement->getParentElement()) {
                 $e = new ElementException("Element is already child of other element");
                 $e->setElement($childElement);
                 throw $e;
@@ -130,11 +138,12 @@ abstract class AbstractElement implements ElementInterface
      *
      * @param AbstractElement $element
      */
-    public function removeChild(AbstractElement $element) {
-        if($element->parentElement === $this) {
-            if(($idx = array_search($element, $this->childElements)) !== false) {
-                $element->parentElement = NULL;
-                unset($this->childElements[$idx]);
+    public function removeChild(ElementInterface $element) {
+        if($element->getParentElement() === $this) {
+            if(($idx = array_search($element, $children = $this->getChildElements())) !== false) {
+                $element->setParentElement(NULL);
+                unset($children[$idx]);
+                $this->setChildElements($children);
             }
         }
     }
@@ -145,6 +154,14 @@ abstract class AbstractElement implements ElementInterface
     public function getParentElement(): ?ElementInterface
     {
         return $this->parentElement;
+    }
+
+    /**
+     * @param ElementInterface|null $element
+     */
+    public function setParentElement(?ElementInterface $element)
+    {
+        $this->parentElement = $element;
     }
 
     /**
@@ -172,51 +189,6 @@ abstract class AbstractElement implements ElementInterface
     }
 
     /**
-     * Transforms a HTML element into its HTML string representation
-     *
-     * @param int $indention
-     * @return string
-     */
-    public function toString(int $indention = 0): string {
-        $str = $this->stringifyStart($indention);
-        $str.=$this->stringifyContents($indention+1);
-        $str.=$this->stringifyEnd($indention);
-
-        return $str;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->toString();
-    }
-
-    /**
-     * Deep copy child elements
-     */
-    public function __clone()
-    {
-        unset($this["id"]);
-
-        foreach($this->childElements as &$element) {
-            $element = clone $element;
-            $element->parentElement = $this;
-            unset($element["id"]);
-        }
-    }
-
-    /**
-     * Creates the indention of a passed level
-     * @param int $indention
-     * @return string
-     */
-    protected function getIndentionString(int $indention) {
-        return  str_repeat("\t", $indention);
-    }
-
-    /**
      * Sets an HTML id attribute
      *
      * @param string $id
@@ -235,51 +207,10 @@ abstract class AbstractElement implements ElementInterface
     }
 
     /**
-     * @param int $indention
-     * @return string
+     * @inheritDoc
      */
-    abstract protected function stringifyStart(int $indention = 0): string;
-
-    /**
-     * @param int $indention
-     * @return string
-     */
-    abstract protected function stringifyEnd(int $indention = 0): string;
-
-    /**
-     * Called by toString method to transform elements content into a HTML string
-     *
-     * @param int $indention
-     * @return string
-     */
-    protected function stringifyContents(int $indention = 0): string {
-        if($this->isContentAllowed() && ($children = $this->getChildElements())) {
-            $str = "";
-            foreach($children as $element) {
-                $str .= $element->toString($indention+1) . PHP_EOL;
-            }
-            return rtrim($str, PHP_EOL);
-        }
+    public function toString(): string
+    {
         return "";
-    }
-
-    /**
-     * Every plain text value for attribute contents is passed to this method for escaping reasons
-     *
-     * @param $value
-     * @return string|null
-     */
-    protected function escapedAttributeValue($value): ?string {
-        return htmlspecialchars($value);
-    }
-
-    /**
-     * Every plain text value for text contents is passed to this method for escaping reasons
-     *
-     * @param $value
-     * @return string|null
-     */
-    protected function escapedContentValue($value): ?string {
-        return htmlspecialchars($value);
     }
 }

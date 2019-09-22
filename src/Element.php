@@ -213,7 +213,7 @@ class Element extends AbstractElement
     /**
      * @inheritDoc
      */
-    public function appendChild(AbstractElement $childElement)
+    public function appendChild(ElementInterface $childElement)
     {
         parent::appendChild($childElement);
         if($childElement instanceof Element) {
@@ -240,5 +240,87 @@ class Element extends AbstractElement
             if($element instanceof Element)
                 $element->setAutoIdentificationEnabled( $this->isAutoIdentificationEnabled() );
         });
+    }
+
+    /**
+     * Transforms a HTML element into its HTML string representation
+     *
+     * @param int $indention
+     * @return string
+     */
+    public function toString(int $indention = 0): string {
+        $str = $this->stringifyStart($indention);
+        $str.=$this->stringifyContents($indention+1);
+        $str.=$this->stringifyEnd($indention);
+
+        return $str;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toString();
+    }
+
+    /**
+     * Deep copy child elements
+     */
+    public function __clone()
+    {
+        unset($this["id"]);
+
+        foreach($this->childElements as &$element) {
+            $element = clone $element;
+            $element->parentElement = $this;
+            unset($element["id"]);
+        }
+    }
+
+    /**
+     * Creates the indention of a passed level
+     * @param int $indention
+     * @return string
+     */
+    protected function getIndentionString(int $indention) {
+        return  str_repeat("\t", $indention);
+    }
+
+    /**
+     * Called by toString method to transform elements content into a HTML string
+     *
+     * @param int $indention
+     * @return string
+     */
+    protected function stringifyContents(int $indention = 0): string {
+        if($this->isContentAllowed() && ($children = $this->getChildElements())) {
+            $str = "";
+            foreach($children as $element) {
+                $str .= $element->toString($indention+1) . PHP_EOL;
+            }
+            return rtrim($str, PHP_EOL);
+        }
+        return "";
+    }
+
+    /**
+     * Every plain text value for attribute contents is passed to this method for escaping reasons
+     *
+     * @param $value
+     * @return string|null
+     */
+    protected function escapedAttributeValue($value): ?string {
+        return htmlspecialchars($value);
+    }
+
+    /**
+     * Every plain text value for text contents is passed to this method for escaping reasons
+     *
+     * @param $value
+     * @return string|null
+     */
+    protected function escapedContentValue($value): ?string {
+        return htmlspecialchars($value);
     }
 }

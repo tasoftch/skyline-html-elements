@@ -51,14 +51,6 @@ abstract class AbstractInlineCodeElement extends AbstractElement implements Temp
     }
 
     /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
      * @param string $name
      */
     public function setName(string $name): void
@@ -73,9 +65,6 @@ abstract class AbstractInlineCodeElement extends AbstractElement implements Temp
     {
         $this->callback = $callback;
     }
-
-    protected function stringifyStart(int $indention = 0): string{return"";}
-    protected function stringifyEnd(int $indention = 0): string{return"";}
 
     /**
      * If the template did not yet specify a inline html callback, use the default one.

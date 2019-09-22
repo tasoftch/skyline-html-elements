@@ -32,6 +32,7 @@ interface ElementInterface extends ArrayAccess
      * @return ElementInterface|null
      */
     public function getParentElement(): ?ElementInterface;
+    public function setParentElement(?ElementInterface $element);
 
     /**
      * @return bool
@@ -53,6 +54,7 @@ interface ElementInterface extends ArrayAccess
      * @return ElementInterface[]
      */
     public function getChildElements(): array;
+    public function setChildElements(array $children);
 
 
     public function toString(): string;

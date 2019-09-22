@@ -25,12 +25,12 @@ namespace Skyline\HTML\Exception;
 
 
 use RuntimeException;
-use Skyline\HTML\AbstractElement;
+use Skyline\HTML\ElementInterface;
 use Throwable;
 
 class ElementException extends RuntimeException
 {
-    /** @var AbstractElement */
+    /** @var ElementInterface */
     private $element;
     /**
      * @inheritDoc
@@ -41,17 +41,17 @@ class ElementException extends RuntimeException
     }
 
     /**
-     * @return AbstractElement
+     * @return ElementInterface
      */
-    public function getElement(): AbstractElement
+    public function getElement(): ElementInterface
     {
         return $this->element;
     }
 
     /**
-     * @param AbstractElement $element
+     * @param ElementInterface $element
      */
-    public function setElement(AbstractElement $element): void
+    public function setElement(ElementInterface $element): void
     {
         $this->element = $element;
     }
