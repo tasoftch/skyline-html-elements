@@ -23,6 +23,8 @@
 
 namespace Skyline\HTML;
 
+use ArrayAccess;
+
 /**
  * Adapter trait to use html elements as templates
  * @package Skyline\HTML
@@ -37,6 +39,6 @@ trait RenderableTrait
     }
 
     public function getName(): string {
-        return ($this instanceof \ArrayAccess) && isset($this["name"]) ? $this["name"] : $this->getTagName();
+        return ($this instanceof ArrayAccess) && isset($this["name"]) ? $this["name"] : $this->getTagName();
     }
 }

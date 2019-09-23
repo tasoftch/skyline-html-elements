@@ -271,20 +271,11 @@ class Element extends AbstractElement
     {
         unset($this["id"]);
 
-        foreach($this->childElements as &$element) {
+        foreach($this->getChildElements() as &$element) {
             $element = clone $element;
-            $element->parentElement = $this;
+            $element->setParentElement( $this );
             unset($element["id"]);
         }
-    }
-
-    /**
-     * Creates the indention of a passed level
-     * @param int $indention
-     * @return string
-     */
-    protected function getIndentionString(int $indention) {
-        return  str_repeat("\t", $indention);
     }
 
     /**
@@ -302,25 +293,5 @@ class Element extends AbstractElement
             return rtrim($str, PHP_EOL);
         }
         return "";
-    }
-
-    /**
-     * Every plain text value for attribute contents is passed to this method for escaping reasons
-     *
-     * @param $value
-     * @return string|null
-     */
-    protected function escapedAttributeValue($value): ?string {
-        return htmlspecialchars($value);
-    }
-
-    /**
-     * Every plain text value for text contents is passed to this method for escaping reasons
-     *
-     * @param $value
-     * @return string|null
-     */
-    protected function escapedContentValue($value): ?string {
-        return htmlspecialchars($value);
     }
 }
