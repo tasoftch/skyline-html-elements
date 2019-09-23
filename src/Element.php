@@ -213,9 +213,9 @@ class Element extends AbstractElement
     /**
      * @inheritDoc
      */
-    public function appendChild(ElementInterface $childElement)
+    public function appendElement(ElementInterface $childElement)
     {
-        parent::appendChild($childElement);
+        parent::appendElement($childElement);
         if($childElement instanceof Element) {
             $childElement->setAutoIdentificationEnabled( $this->isAutoIdentificationEnabled() );
             $childElement->setFormatOutput( $this->formatOutput() );

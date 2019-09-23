@@ -82,8 +82,8 @@ class GeneralElementTest extends TestCase
         $child1 = new Element();
         $child2 = new Element();
 
-        $parent->appendChild($child2);
-        $child2->appendChild($child1);
+        $parent->appendElement($child2);
+        $child2->appendElement($child1);
 
         $this->assertSame($parent, $child2->getParentElement());
         $this->assertSame($child2, $child1->getParentElement());
@@ -97,7 +97,7 @@ class GeneralElementTest extends TestCase
     public function testInvalidChildren1() {
         $parent = new Element("div", false);
         $child1 = new Element();
-        $parent->appendChild($child1);
+        $parent->appendElement($child1);
     }
 
     /**
@@ -108,8 +108,8 @@ class GeneralElementTest extends TestCase
         $parent2 = new Element();
         $child = new Element();
 
-        $parent->appendChild($child);
-        $parent2->appendChild($child);
+        $parent->appendElement($child);
+        $parent2->appendElement($child);
     }
 
     public function testRemoveChild() {
@@ -117,13 +117,13 @@ class GeneralElementTest extends TestCase
         $child1 = new Element();
         $child2 = new Element();
 
-        $parent->appendChild($child1);
-        $child1->appendChild($child2);
+        $parent->appendElement($child1);
+        $child1->appendElement($child2);
 
-        $parent->removeChild($child2);
+        $parent->appendElement($child2);
         $this->assertSame($child1, $child2->getParentElement());
 
-        $parent->removeChild($child1);
+        $parent->appendElement($child1);
         $this->assertSame($child1, $child2->getParentElement());
 
         $this->assertNull($child1->getParentElement());
@@ -138,8 +138,8 @@ class GeneralElementTest extends TestCase
         $child1->setID("c1");
         $child2->setID("c2");
 
-        $parent->appendChild($child1);
-        $child1->appendChild($child2);
+        $parent->appendElement($child1);
+        $child1->appendElement($child2);
 
         $this->assertSame($parent, $parent->getElementByID("p"));
         $this->assertSame($child1, $parent->getElementByID("c1"));
@@ -156,8 +156,8 @@ class GeneralElementTest extends TestCase
         $child2->addClass("c2");
         $child2->addClass("p");
 
-        $parent->appendChild($child1);
-        $child1->appendChild($child2);
+        $parent->appendElement($child1);
+        $child1->appendElement($child2);
 
         $this->assertSame([
             $parent, $child2
@@ -169,8 +169,8 @@ class GeneralElementTest extends TestCase
         $child1 = new Element();
         $child2 = new Element();
 
-        $parent->appendChild($child1);
-        $child1->appendChild($child2);
+        $parent->appendElement($child1);
+        $child1->appendElement($child2);
 
         $this->assertEquals("", $parent->getID());
         $this->assertEquals("", $child1->getID());
@@ -182,8 +182,8 @@ class GeneralElementTest extends TestCase
 
         $parent->setAutoIdentificationEnabled(true);
 
-        $parent->appendChild($child1);
-        $child1->appendChild($child2);
+        $parent->appendElement($child1);
+        $child1->appendElement($child2);
 
         $this->assertNotEquals("", $parent->getID());
         $this->assertNotEquals("", $child1->getID());
@@ -197,8 +197,8 @@ class GeneralElementTest extends TestCase
         $child1 = new Element();
         $child2 = new Element();
 
-        $parent->appendChild($child1);
-        $parent->appendChild($child2);
+        $parent->appendElement($child1);
+        $parent->appendElement($child2);
 
         $cloned = clone $parent;
         $this->assertNotSame($parent, $cloned);
@@ -240,7 +240,7 @@ class GeneralElementTest extends TestCase
 
         $child = new Element("t", false);
         $child["label"] = 'test';
-        $element->appendChild($child);
+        $element->appendElement($child);
 
         $this->assertEquals("<!--suppress ALL -->
 <p test1 test=\"0\"><t label=\"test\"/></p>", $element->toString());

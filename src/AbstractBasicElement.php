@@ -116,8 +116,8 @@ abstract class AbstractBasicElement implements ElementInterface
      * @throws DisallowedContentsException
      * @throws ElementException
      */
-    public function appendChild(ElementInterface $childElement) {
-        if(!in_array($childElement, $this->getChildElements())) {
+    public function appendElement(ElementInterface $childElement) {
+        if(!in_array($childElement, $this->childElements)) {
             if(!$this->isContentAllowed()) {
                 $e = new DisallowedContentsException("Element does not allow contents");
                 $e->setElement($this);
@@ -128,11 +128,9 @@ abstract class AbstractBasicElement implements ElementInterface
                 $e->setElement($childElement);
                 throw $e;
             }
-            $childElement->setParentElement( $this );
 
-            $children = $this->getChildElements() ?? [];
-            $children[] = $childElement;
-            $this->setChildElements($children);
+            $childElement->setParentElement( $this );
+            $this->childElements[] = $childElement;
         }
     }
 
@@ -141,12 +139,10 @@ abstract class AbstractBasicElement implements ElementInterface
      *
      * @param ElementInterface $element
      */
-    public function removeChild(ElementInterface $element) {
+    public function removeElement(ElementInterface $element) {
         if($element->getParentElement() === $this) {
-            if(($idx = array_search($element, $children = $this->getChildElements())) !== false) {
-                $element->setParentElement(NULL);
-                unset($children[$idx]);
-                $this->setChildElements($children);
+            if(($idx = array_search($element, $this->childElements)) !== false) {
+                unset($this->childElements[$idx]);
             }
         }
     }
