@@ -51,7 +51,7 @@ class TextContentElement extends Element
         $ind = $this->getIndentionString($indention);
         $content = $this->escapedContentValue( $this->getTextContent() );
         if($this->formatOutput())
-            $content = preg_replace("/([\n\r])[ \t]*/i", "$1$ind", $content);
-        return $content;
+            $content = $ind . preg_replace("/[\n\r]([ \t]*)/i", "$1$ind", $content);
+        return rtrim($content) . "\n";
     }
 }

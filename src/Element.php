@@ -290,7 +290,7 @@ class Element extends AbstractElement
             foreach($children as $element) {
                 $str .= $element->toString($indention+1) . PHP_EOL;
             }
-            return rtrim($str, PHP_EOL);
+            return $str;
         }
         return "";
     }
