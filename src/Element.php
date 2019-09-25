@@ -288,7 +288,7 @@ class Element extends AbstractElement
         if($this->isContentAllowed() && ($children = $this->getChildElements())) {
             $str = "";
             foreach($children as $element) {
-                $str .= $element->toString($indention+1) . PHP_EOL;
+                $str .= $element->toString($indention);
             }
             return $str;
         }
