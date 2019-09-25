@@ -223,7 +223,7 @@ class Element extends AbstractElement
     {
         if($this->isContentAllowed()) {
             $ind = $this->formatOutput() ? $this->getIndentionString($indention) : "";
-            $nl = $this->formatOutput() && !$this->skipInlineFormat() ? PHP_EOL : "";
+            $nl = $this->formatOutput() ? PHP_EOL : "";
 
             return sprintf("%s</%s>$nl", $ind, $this->getTagName());
         }
