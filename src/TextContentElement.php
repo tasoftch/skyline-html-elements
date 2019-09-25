@@ -26,35 +26,13 @@ namespace Skyline\HTML;
 
 class TextContentElement extends HTMLContentElement
 {
-    public function __construct(string $tagName = 'div', string $textContent = '')
-    {
-        parent::__construct($tagName, htmlspecialchars($textContent));
-    }
-
-    /**
-     * @param string $textContent
-     */
-    public function setTextContent(string $textContent): void
-    {
-        $this->setContent( htmlspecialchars($textContent) );
-    }
-
-    /**
-     * @return string
-     */
-    public function getTextContent(): string
-    {
-        return strip_tags( $this->getContent() );
-    }
-
-
     /**
      * @inheritDoc
      */
     protected function stringifyContents(int $indention = 0): string
     {
         $ind = $this->getIndentionString($indention);
-        $content = $this->escapedContentValue( $this->getTextContent() );
+        $content = $this->escapedContentValue( $this->getContent() );
         if($this->formatOutput())
             $content = $ind . preg_replace("/[\n\r]([ \t]*)/i", "$1$ind", $content);
         return rtrim($content) . ($this->skipInlineFormat() ? '' : PHP_EOL);
