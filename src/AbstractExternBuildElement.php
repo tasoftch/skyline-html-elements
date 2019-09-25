@@ -53,7 +53,7 @@ abstract class AbstractExternBuildElement extends AbstractInlineBuildElement
     /**
      * @inheritDoc
      */
-    protected function buildElement(RenderContextInterface $context, $info)
+    protected function buildElement(?RenderContextInterface $context, $info)
     {
         return $this->getElementBuilder()->buildElement($this, $context, $info);
     }

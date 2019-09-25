@@ -42,7 +42,7 @@ abstract class AbstractInlineBuildElement extends AbstractBasicElement implement
      */
     public function toString(): string
     {
-        return "";
+        return $this->buildElement($this->renderContext, NULL);
     }
 
     /**
@@ -87,9 +87,9 @@ abstract class AbstractInlineBuildElement extends AbstractBasicElement implement
      * Normally this kind of elements are used to quickly render snipplets.
      * The $info argument contains the value passed by the render context's renderSubTemplate($template, $info); info argument.
      *
-     * @param RenderContextInterface $context
+     * @param RenderContextInterface|null $context
      * @param $info
      * @return string|null
      */
-    abstract protected function buildElement(RenderContextInterface $context, $info);
+    abstract protected function buildElement(?RenderContextInterface $context, $info);
 }
