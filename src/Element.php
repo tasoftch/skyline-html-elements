@@ -29,6 +29,7 @@ class Element extends AbstractElement
     /** @var bool Enabled automatical identification of child elements */
     protected $autoIdentificationEnabled = false;
     protected $formatOutput = true;
+    protected $skipInlineFormat = false;
 
 
     public function getID(): string
@@ -165,11 +166,30 @@ class Element extends AbstractElement
         });
     }
 
+    /**
+     * If returns true, the element does not apply format for child elements.
+     * Each tag is on a new line and its content indended.
+     * If true, it does not add new lines and also does not indend further elements.
+     *
+     * @return bool
+     */
+    protected function skipInlineFormat(): bool {
+        return $this->skipInlineFormat;
+    }
+
+    /**
+     * @param bool $skipInlineFormat
+     */
+    public function setSkipInlineFormat(bool $skipInlineFormat): void
+    {
+        $this->skipInlineFormat = $skipInlineFormat;
+    }
+
     protected function stringifyStart(int $indention = 0): string
     {
         $ind = $this->formatOutput() ? $this->getIndentionString($indention) : "";
         $args = "";
-        $nl = $this->formatOutput() ? PHP_EOL : "";
+        $nl = $this->formatOutput() && !$this->skipInlineFormat() ? PHP_EOL : "";
 
         if(count($attributes = $this->getAttributes())) {
             $arguments = [];
@@ -203,7 +223,7 @@ class Element extends AbstractElement
     {
         if($this->isContentAllowed()) {
             $ind = $this->formatOutput() ? $this->getIndentionString($indention) : "";
-            $nl = $this->formatOutput() ? PHP_EOL : "";
+            $nl = $this->formatOutput() && !$this->skipInlineFormat() ? PHP_EOL : "";
 
             return sprintf("%s</%s>$nl", $ind, $this->getTagName());
         }

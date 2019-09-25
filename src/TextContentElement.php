@@ -57,6 +57,6 @@ class TextContentElement extends HTMLContentElement
         $content = $this->escapedContentValue( $this->getTextContent() );
         if($this->formatOutput())
             $content = $ind . preg_replace("/[\n\r]([ \t]*)/i", "$1$ind", $content);
-        return rtrim($content) . "\n";
+        return rtrim($content) . ($this->skipInlineFormat() ? '' : PHP_EOL);
     }
 }
