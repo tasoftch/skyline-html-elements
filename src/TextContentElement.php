@@ -33,7 +33,7 @@ class TextContentElement extends HTMLContentElement
     {
         $ind = $this->getIndentionString($indention);
         $content = $this->escapedContentValue( $this->getContent() );
-        if($this->formatOutput())
+        if($this->formatOutput() && !$this->skipInlineFormat())
             $content = $ind . preg_replace("/[\n\r]([ \t]*)/i", "$1$ind", $content);
         return rtrim($content) . ($this->skipInlineFormat() ? '' : PHP_EOL);
     }
