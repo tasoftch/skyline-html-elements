@@ -36,17 +36,19 @@ class HTMLContentElement extends Element
     }
 
     /**
-     * @return string
+     * @return string|mixed
      */
-    public function getContent(): string
+    public function getContent()
     {
         return $this->content;
     }
 
     /**
-     * @param string $content
+     * Everything that is stringifyable
+     *
+     * @param string|mixed $content
      */
-    public function setContent(string $content): void
+    public function setContent($content): void
     {
         $this->content = $content;
     }
@@ -57,6 +59,6 @@ class HTMLContentElement extends Element
      */
     protected function stringifyContents(int $indention = 0): string
     {
-        return $this->getContent();
+        return (string) $this->getContent();
     }
 }
