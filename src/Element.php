@@ -222,7 +222,7 @@ class Element extends AbstractElement
     protected function stringifyEnd(int $indention = 0): string
     {
         if($this->isContentAllowed()) {
-            $ind = $this->formatOutput() ? $this->getIndentionString($indention) : "";
+            $ind = $this->formatOutput() && !$this->skipInlineFormat() ? $this->getIndentionString($indention) : "";
             $nl = $this->formatOutput() ? PHP_EOL : "";
 
             return sprintf("%s</%s>$nl", $ind, $this->getTagName());
