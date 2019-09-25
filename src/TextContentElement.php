@@ -24,15 +24,19 @@
 namespace Skyline\HTML;
 
 
-class TextContentElement extends Element
+class TextContentElement extends HTMLContentElement
 {
-    /** @var string */
-    private $textContent;
-
     public function __construct(string $tagName = 'div', string $textContent = '')
     {
-        parent::__construct($tagName, true);
-        $this->textContent = $textContent;
+        parent::__construct($tagName, htmlspecialchars($textContent));
+    }
+
+    /**
+     * @param string $textContent
+     */
+    public function setTextContent(string $textContent): void
+    {
+        $this->setContent( htmlspecialchars($textContent) );
     }
 
     /**
@@ -40,8 +44,9 @@ class TextContentElement extends Element
      */
     public function getTextContent(): string
     {
-        return $this->textContent;
+        return strip_tags( $this->getContent() );
     }
+
 
     /**
      * @inheritDoc

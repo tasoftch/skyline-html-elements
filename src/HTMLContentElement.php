@@ -24,16 +24,39 @@
 namespace Skyline\HTML;
 
 
-class HTMLContentElement extends TextContentElement
+class HTMLContentElement extends Element
 {
-    /**
-     * Simply ignore content escapes
-     *
-     * @param $value
-     * @return string|null
-     */
-    protected function escapedContentValue($value): ?string
+    /** @var string */
+    private $content;
+
+    public function __construct(string $tagName = 'div', string $content = '')
     {
-        return $value;
+        parent::__construct($tagName, true);
+        $this->content = $content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function stringifyContents(int $indention = 0): string
+    {
+        return $this->getContent();
     }
 }
