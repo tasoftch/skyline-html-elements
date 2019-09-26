@@ -23,14 +23,11 @@
 
 namespace Skyline\HTML\Head;
 
-use Skyline\HTML\RenderableTrait;
 use Skyline\HTML\TextContentElement;
 use Skyline\Render\Template\Extension\TemplateExtensionInterface;
 
 class Title extends TextContentElement implements TemplateExtensionInterface
 {
-    use RenderableTrait;
-
     public function __construct(string $title)
     {
         parent::__construct("title", $title);

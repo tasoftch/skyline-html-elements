@@ -25,13 +25,10 @@ namespace Skyline\HTML\Head;
 
 
 use Skyline\HTML\Element;
-use Skyline\HTML\RenderableTrait;
 use Skyline\Render\Template\Extension\TemplateExtensionInterface;
 
 class RemoteSourceScript extends Element implements TemplateExtensionInterface
 {
-    use RenderableTrait;
-
     const TYPE_JAVASCRIPT = 'application/javascript';
 
     public function __construct($content, string $contentType = self::TYPE_JAVASCRIPT, $integrity = NULL, $crossorigin = NULL)
