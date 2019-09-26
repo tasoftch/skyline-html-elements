@@ -24,10 +24,10 @@
 namespace Skyline\HTML;
 
 
-abstract class AbstractElement extends AbstractBasicElement implements ElementInterface
-{
-    use RenderableTrait;
+use Skyline\Render\Template\TemplateInterface;
 
+abstract class AbstractElement extends AbstractBasicElement implements ElementInterface, TemplateInterface
+{
     /**
      * Sets an HTML id attribute
      *
@@ -44,6 +44,11 @@ abstract class AbstractElement extends AbstractBasicElement implements ElementIn
      */
     public function getID(): string {
         return $this["id"] ?? "";
+    }
+
+    public function getName(): string
+    {
+        return $this["name"] ?? $this->getTagName();
     }
 
     /**
@@ -81,5 +86,13 @@ abstract class AbstractElement extends AbstractBasicElement implements ElementIn
      */
     protected function escapedContentValue($value): ?string {
         return htmlspecialchars($value);
+    }
+
+    public function getRenderable(): callable
+    {
+        $self = $this;
+        return function() use ($self) {
+            return $self->toString();
+        };
     }
 }
