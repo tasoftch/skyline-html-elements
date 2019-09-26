@@ -24,7 +24,9 @@
 namespace Skyline\HTML;
 
 
-class Element extends AbstractElement
+use Skyline\Render\Template\TemplateInterface;
+
+class Element extends AbstractElement implements TemplateInterface
 {
     /** @var bool Enabled automatical identification of child elements */
     protected $autoIdentificationEnabled = false;
