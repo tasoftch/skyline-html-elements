@@ -143,6 +143,7 @@ abstract class AbstractBasicElement implements ElementInterface
         if($element->getParentElement() === $this) {
             if(($idx = array_search($element, $this->childElements)) !== false) {
                 unset($this->childElements[$idx]);
+                $element->setParentElement(NULL);
             }
         }
     }
