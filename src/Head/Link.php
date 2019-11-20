@@ -29,7 +29,9 @@ use Skyline\Render\Template\Extension\TemplateExtensionInterface;
 
 class Link extends EmptyElement implements TemplateExtensionInterface
 {
+    const REL_ALTERNATE = 'alternate';
     const REL_AUTHOR = "author";
+    const REL_CANONICAL = 'canonical';
     const REL_DNS_PREFETCH = "dns-prefetch";
     const REL_HELP = "help";
     const REL_ICON = 'icon';
