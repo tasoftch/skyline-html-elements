@@ -28,10 +28,10 @@ use Skyline\Render\Template\Extension\TemplateExtensionInterface;
 
 class Meta extends EmptyElement implements TemplateExtensionInterface
 {
-    public function __construct(string $name, $content)
+    public function __construct(string $name, $content, bool $property = false)
     {
         parent::__construct("meta");
-        $this["name"] = $name;
+        $this[$property ? 'property' : "name"] = $name;
         $this["content"] = $content;
     }
 
