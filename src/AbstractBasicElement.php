@@ -60,7 +60,7 @@ abstract class AbstractBasicElement implements ElementInterface
     /**
      * @inheritDoc
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->attributes[strtolower($offset)]);
     }
@@ -68,7 +68,7 @@ abstract class AbstractBasicElement implements ElementInterface
     /**
      * @inheritDoc
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->attributes[strtolower($offset)] ?? NULL;
     }
@@ -76,7 +76,7 @@ abstract class AbstractBasicElement implements ElementInterface
     /**
      * @inheritDoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if(is_scalar($value))
             $this->attributes[strtolower($offset)] = $value;
@@ -85,7 +85,7 @@ abstract class AbstractBasicElement implements ElementInterface
     /**
      * @inheritDoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if(isset($this->attributes[$offset = strtolower($offset)]))
             unset($this->attributes[$offset]);
